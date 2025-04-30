@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Posts</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/css/index.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <h1 class="mb-4">CRUD - Posts</h1>
+        <a href="/posts/create" class="btn btn-primary mb-3">Create New Post</a>
+        <a href="/logout" class="btn btn-danger mb-3 float-end">Logout</a>
+
+        <div class="list-group">
+            {% for post in posts %}
+                <div class="list-group-item">
+                    <div>
+                        <h2 class="h5 mb-1">{{ post.title }}</h2>
+                        <p class="mb-0">{{ post.content }}</p>
+                        <div class="d-flex justify-content-between align-items-center">
+                            <small class="text-muted">
+                                By 
+                                {% if post.user_id == user_id %}
+                                    you
+                                {% else %}
+                                    {{ post.author }}
+                                {% endif %}
+                            </small>
+                            <small class="text-muted post-date">
+                                {{ post.created_at|date("g:i a, F j, Y") }}
+                            </small>
+                        </div>
+                    </div>
+                    {% if post.user_id == user_id %}
+                        <div class="post-actions">
+                            <a href="/posts/edit/{{ post.id }}" class="btn btn-warning btn-submit">Edit</a>
+                            <form action="/posts/delete/{{ post.id }}" method="POST" class="d-inline">
+                                <button type="submit" class="btn btn-danger btn-cancel">Delete</button>
+                            </form>
+                        </div>
+                    {% endif %}
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
